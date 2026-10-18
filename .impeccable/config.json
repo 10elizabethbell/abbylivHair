@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "dark-glow",
+        "value": "#3a221a",
+        "createdAt": "2026-10-18T21:40:07.405Z",
+        "reason": "pitch-site finishing-rules.md 'Readable over the scene': text over the hair canvas gets a soft glow in the ground color; this is the hero hint's legibility halo, not decoration"
+      }
+    ]
+  }
+}
