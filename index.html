@@ -420,6 +420,9 @@ var Loop = (function () {
     add: function (el, fn) {
       var s = { fn: fn, visible: false }; subs.push(s);
       new IntersectionObserver(function (es) { s.visible = es[0].isIntersecting; if (s.visible) wake(); }, { rootMargin: '80px' }).observe(el);
+      // don't wait on the observer's first report: some in-app browsers deliver it late or not at all
+      var r = el.getBoundingClientRect();
+      if (r.bottom > -80 && r.top < innerHeight + 80) { s.visible = true; wake(); }
       return s;
     }
   };
@@ -432,20 +435,19 @@ var PHONE = '+19088396941';
   var cvs = document.getElementById('hair'); if (!cvs) return;
   var ctx = cvs.getContext('2d');
   // tunables
-  var STRANDS_PHONE = 260, STRANDS_DESK = 620, SAMPLES = 64, SEG = 2;
+  var STRANDS_PHONE = 260, STRANDS_DESK = 620, SAMPLES_PHONE = 64, SAMPLES_DESK = 96;
   var SWELL = 0.9, RIPPLE = 1.4;          // motion speeds (lively, not sleepy)
   var BRUSH = 0.16;                       // brush radius, fraction of lock height
   var LIFT = 2.6, GHOST_LIFT = 0.9, REGROW = 0.0045;        // how fast highlights paint in / fade back (per frame at 60fps)
   var PUSH = 1400, SPRING = 38, DAMP = 6.5;
   var IDLE_GHOST = 5;                     // seconds without touch before the brush paints by itself again
   var RAMP = [[0, [58, 33, 24]], [0.28, [92, 56, 36]], [0.55, [138, 88, 52]], [0.78, [196, 146, 88]], [1, [228, 196, 140]]];
-  var LIFTED = [247, 234, 205];
-  var LAYERS = [{ dim: 0.5, w: 2.4, a: 0.95 }, { dim: 0.78, w: 1.6, a: 0.9 }, { dim: 1, w: 1.05, a: 0.85 }];
-  var LEVELS = 12;
+  var LIFTED = [243, 220, 170];
+  var LAYERS = [{ dim: 0.5, w: 2.4, a: 0.95, lift: 0.3 }, { dim: 0.78, w: 1.6, a: 0.9, lift: 0.75 }, { dim: 1, w: 1.05, a: 0.85, lift: 1 }];  // back strands lighten least, so highlights stay strand-by-strand
   var TILT_PHONE = 0.14, TILT_DESK = 0.34;  // how much the lock rises toward its ends (desktop: only right of the text)
   var GHOST_PUSH = 0.35;                    // how hard the self-painting brush parts the hair
 
-  var W = 0, H = 0, dpr = 1, N = SAMPLES, S, off, layer, amp, kk, ph, endU, dr, dk, dy, vy, lift, xs, yc, ww, Y, tilt, wide, jit;
+  var W = 0, H = 0, dpr = 1, N = SAMPLES_PHONE, S, off, layer, amp, kk, ph, endU, dr, dk, dy, vy, lift, maxLift, xs, yc, ww, Y, tilt, wide, jit;
   var pointer = { x: -1e4, y: -1e4, cx: 0, cy: 0, vx: 0, vy: 0, active: false, last: -100 };
   var hint = document.getElementById('hint'), touched = false;
 
@@ -455,7 +457,7 @@ var PHONE = '+19088396941';
     if (w === W && h === H) return false;
     W = w; H = h; dpr = Math.min(1.5, window.devicePixelRatio || 1);
     cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
-    S = W < 700 ? STRANDS_PHONE : STRANDS_DESK; wide = W >= 1024; tilt = wide ? TILT_DESK : TILT_PHONE;
+    S = W < 700 ? STRANDS_PHONE : STRANDS_DESK; wide = W >= 1024; N = wide ? SAMPLES_DESK : SAMPLES_PHONE; tilt = wide ? TILT_DESK : TILT_PHONE;
     dr = new Float32Array(S); dk = new Float32Array(S); off = new Float32Array(S); layer = new Uint8Array(S); amp = new Float32Array(S); kk = new Float32Array(S); ph = new Float32Array(S); endU = new Float32Array(S);
     for (var i = 0; i < S; i++) {
       var l = i < S * 0.3 ? 0 : i < S * 0.65 ? 1 : 2;   // back to front
@@ -465,8 +467,8 @@ var PHONE = '+19088396941';
       endU[i] = rnd(0.86, 1.08);
       dr[i] = rnd(0.04, 0.16) * (Math.random() < 0.5 ? -1 : 1); dk[i] = rnd(1.5, 4);   // strands drift across each other
     }
-    jit = new Float32Array(S * N); for (var q = 0; q < S * N; q++) jit[q] = Math.random() - 0.5;
-    dy = new Float32Array(S * N); vy = new Float32Array(S * N); lift = new Float32Array(S * N);
+    jit = new Float32Array(S); for (var q = 0; q < S; q++) jit[q] = Math.random() - 0.5;   // per strand: each one lifts at its own pace
+    maxLift = new Float32Array(S); dy = new Float32Array(S * N); vy = new Float32Array(S * N); lift = new Float32Array(S * N);
     xs = new Float32Array(N); yc = new Float32Array(N); ww = new Float32Array(N); Y = new Float32Array(S * N);
     for (var j = 0; j < N; j++) xs[j] = -0.06 * W + (j / (N - 1)) * 1.14 * W;
     return true;
@@ -504,11 +506,11 @@ var PHONE = '+19088396941';
   }
   function brushAt(px, py, pvy, dt, paint, strength, push) {
     var R = H * BRUSH, R2 = R * R;
-    var j0 = Math.max(0, Math.floor((px - R - xs[0]) / (xs[1] - xs[0]))), j1 = Math.min(N - 1, Math.ceil((px + R - xs[0]) / (xs[1] - xs[0])));
+    var j0 = Math.max(0, Math.floor((px - R / 0.55 - xs[0]) / (xs[1] - xs[0]))), j1 = Math.min(N - 1, Math.ceil((px + R / 0.55 - xs[0]) / (xs[1] - xs[0])));
     for (var i = 0; i < S; i++) {
       var b = i * N;
       for (var j = j0; j <= j1; j++) {
-        var dx = xs[j] - px, ddy = Y[b + j] - py, d2 = dx * dx + ddy * ddy;
+        var dx = (xs[j] - px) * 0.55, ddy = Y[b + j] - py, d2 = dx * dx + ddy * ddy;   // footprint stretched along the strands
         if (d2 > R2) continue;
         var f = 1 - Math.sqrt(d2) / R;
         vy[b + j] += ((ddy >= 0 ? 1 : -1) * PUSH * push * f * f + pvy * 0.35 * f) * dt;
@@ -518,10 +520,14 @@ var PHONE = '+19088396941';
   }
   function physics(dt) {
     var g = REGROW * dt * 60;
-    for (var k = 0, n = S * N; k < n; k++) {
-      vy[k] += (-SPRING * dy[k] - DAMP * vy[k]) * dt;
-      dy[k] += vy[k] * dt;
-      if (lift[k] > 0) lift[k] = Math.max(0, lift[k] - g);
+    for (var i = 0, k = 0; i < S; i++) {
+      var m = 0;
+      for (var j = 0; j < N; j++, k++) {
+        vy[k] += (-SPRING * dy[k] - DAMP * vy[k]) * dt;
+        dy[k] += vy[k] * dt;
+        if (lift[k] > 0) { lift[k] = Math.max(0, lift[k] - g); if (lift[k] > m) m = lift[k]; }
+      }
+      maxLift[i] = m;
     }
   }
   function draw(t) {
@@ -536,48 +542,49 @@ var PHONE = '+19088396941';
     ctx.closePath(); ctx.fillStyle = gr; ctx.fill();
 
     ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    var segs = Math.ceil((N - 1) / SEG), shineX = 0.42 + 0.22 * Math.sin(t * 0.35);
+    var shineX = 0.42 + 0.22 * Math.sin(t * 0.35);
     for (var L = 0; L < 3; L++) {
       var lay = LAYERS[L]; ctx.lineWidth = lay.w; ctx.globalAlpha = lay.a;
-      // one smooth root-to-ends gradient per lift level, so color never steps along a strand
-      var styles = [];
-      for (var lv = 0; lv < LEVELS; lv++) {
-        var mix = lv / (LEVELS - 1), sg = ctx.createLinearGradient(0, 0, W, 0);
-        for (var q2 = 0; q2 <= 10; q2++) {
-          var u3 = q2 / 10, base = ramp(u3);
-          var c = [base[0] + (LIFTED[0] - base[0]) * mix, base[1] + (LIFTED[1] - base[1]) * mix, base[2] + (LIFTED[2] - base[2]) * mix];
-          var shine = L === 0 ? 0 : 30 * Math.exp(-Math.pow((u3 - shineX) / 0.09, 2));
-          sg.addColorStop(u3, rgb(c, lay.dim + (1 - lay.dim) * mix * 0.7, shine));
-        }
-        styles.push(sg);
+      // natural color: one smooth root-to-ends gradient for the whole layer
+      var sg = ctx.createLinearGradient(0, 0, W, 0);
+      for (var q2 = 0; q2 <= 10; q2++) {
+        var u3 = q2 / 10, shine = L === 0 ? 0 : 30 * Math.exp(-Math.pow((u3 - shineX) / 0.09, 2));
+        sg.addColorStop(u3, rgb(ramp(u3), lay.dim, shine));
       }
-      for (var lv2 = 0; lv2 < LEVELS; lv2++) {
-        ctx.strokeStyle = styles[lv2]; ctx.beginPath(); var any = false;
-        for (var i = 0; i < S; i++) {
-          if (layer[i] !== L) continue;
-          var b = i * N, endX = endU[i] * W;
-          for (var s = 0; s < segs; s++) {
-            var ja = s * SEG, jb = Math.min(N - 1, ja + SEG);
-            if (xs[ja] > endX) break;
-            var lf = (lift[b + ja] + lift[b + jb]) / 2, lvl = lf < 0.01 ? 0 : Math.max(0, Math.min(LEVELS - 1, Math.round(lf * (LEVELS - 1) + jit[b + ja] * 3)));
-            if (lvl !== lv2) continue;
-            ctx.moveTo(xs[ja], Y[b + ja]);
-            for (var j2 = ja + 1; j2 <= jb && xs[j2 - 1] <= endX; j2++) ctx.lineTo(xs[j2], Y[b + j2]);
-            any = true;
-          }
-        }
-        if (any) ctx.stroke();
+      ctx.strokeStyle = sg; ctx.beginPath();
+      for (var i = 0; i < S; i++) {
+        if (layer[i] !== L) continue;
+        var b = i * N, endX = endU[i] * W;
+        ctx.moveTo(xs[0], Y[b]);
+        for (var j2 = 1; j2 < N && xs[j2 - 1] <= endX; j2++) ctx.lineTo(xs[j2], Y[b + j2]);
+      }
+      ctx.stroke();
+      // painted highlights: only strands the brush touched, each with its own gradient along its length
+      var lc = [LIFTED[0] * (lay.dim + 0.3) | 0, LIFTED[1] * (lay.dim + 0.3) | 0, LIFTED[2] * (lay.dim + 0.3) | 0].join(',');
+      for (var i2 = 0; i2 < S; i2++) {
+        if (layer[i2] !== L || maxLift[i2] < 0.02) continue;
+        var b2 = i2 * N, endX2 = endU[i2] * W, ja = -1, jb = -1;
+        for (var j3 = 0; j3 < N && xs[j3] <= endX2; j3++) if (lift[b2 + j3] > 0.01) { if (ja < 0) ja = j3; jb = j3; }
+        if (ja < 0) continue;
+        ja = Math.max(0, ja - 1); jb = Math.min(N - 1, jb + 1);
+        if (xs[jb] - xs[ja] < 1) continue;
+        var strength = lay.lift * Math.min(1.4, 1 + jit[i2] * 0.9), lg = ctx.createLinearGradient(xs[ja], 0, xs[jb], 0);
+        for (var j4 = ja; j4 <= jb; j4++) lg.addColorStop((xs[j4] - xs[ja]) / (xs[jb] - xs[ja]), 'rgba(' + lc + ',' + Math.min(1, lift[b2 + j4] * strength).toFixed(3) + ')');
+        ctx.strokeStyle = lg; ctx.beginPath(); ctx.moveTo(xs[ja], Y[b2 + ja]);
+        for (var j5 = ja + 1; j5 <= jb; j5++) ctx.lineTo(xs[j5], Y[b2 + j5]);
+        ctx.stroke();
       }
     }
     ctx.globalAlpha = 1;
   }
   // balayage brush that paints by itself until someone touches the hair
   function ghost(t) {
-    var u = 0.5 + 0.42 * Math.sin(t * 0.42), j = Math.max(0, Math.min(N - 1, Math.round((u * W - xs[0]) / (xs[1] - xs[0]))));
-    return { x: u * W, y: yc[j] + ww[j] * 0.55 * Math.sin(t * 1.3), vy: ww[j] * 0.7 * Math.cos(t * 1.3) };
+    // strokes run down the length of the hair, the way balayage is painted, moving to a new section each pass
+    var u = (wide ? 0.7 : 0.58) + (wide ? 0.24 : 0.32) * Math.sin(t * 0.9), j = Math.max(0, Math.min(N - 1, Math.round((u * W - xs[0]) / (xs[1] - xs[0]))));
+    return { x: u * W, y: yc[j] + ww[j] * 0.6 * Math.sin(t * 0.23), vy: 0, speed: Math.abs(Math.cos(t * 0.9)) };
   }
   function drawBrush(x, y, t) {
-    ctx.save(); ctx.translate(x, y); ctx.rotate(-0.55 + 0.12 * Math.sin(t * 1.3));
+    ctx.save(); ctx.translate(x, y); ctx.rotate(-0.5 + 0.18 * Math.cos(t * 0.9));
     var s = Math.max(0.8, H / 320);
     ctx.scale(s, s);
     ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 4;
@@ -601,7 +608,7 @@ var PHONE = '+19088396941';
     }
     var showGhost = !REDUCED && (t - pointer.last) > IDLE_GHOST;
     var g;
-    if (showGhost) { g = ghost(t); brushAt(g.x, g.y, g.vy * 0.3, dt, true, GHOST_LIFT, GHOST_PUSH); }
+    if (showGhost) { g = ghost(t); brushAt(g.x, g.y, g.vy * 0.3, dt, true, GHOST_LIFT * g.speed, GHOST_PUSH); }   // paints while moving, so no blob where the stroke turns
     physics(dt);
     draw(t);
     if (showGhost) drawBrush(g.x, g.y, t);
@@ -626,8 +633,8 @@ var PHONE = '+19088396941';
     // still frame with a few highlights already painted in
     shape(2);
     for (var i = 0; i < S; i += 3) for (var j = Math.floor(N * 0.45); j < N; j++) lift[i * N + j] = Math.min(1, (j / N - 0.45) * 2.2);
-    shape(2); draw(2);
-    window.addEventListener('resize', function () { if (build()) { shape(2); draw(2); } });
+    physics(0); shape(2); draw(2);
+    window.addEventListener('resize', function () { if (build()) { shape(2); physics(0); draw(2); } });
     hint.classList.add('gone');
     return;
   }
