@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-18T18:30:00-04:00",
+  "title": "Design System: Abbyliv hair",
+  "extensions": {
+    "colorMeta": {
+      "cocoa": { "role": "primary", "displayName": "Cocoa", "canonical": "#3a221a", "tonalRamp": ["#1a0e0a", "#2c1913", "#3a221a", "#4a2c21", "#6b4a3e", "#9a7666", "#c9aa9c", "#efe2dc"] },
+      "blush": { "role": "primary", "displayName": "Logo Blush", "canonical": "#f3e2db", "tonalRamp": ["#3b2a24", "#5e463d", "#866a5f", "#ad9084", "#cfb3a8", "#ead2c8", "#f3e2db", "#fff4ef"] },
+      "accent": { "role": "secondary", "displayName": "Copper (touch only)", "canonical": "#b8643f", "tonalRamp": ["#2e160c", "#4d2414", "#6e341e", "#94492a", "#b8643f", "#d08a68", "#e5b49c", "#f6e0d4"] },
+      "chestnut": { "role": "tertiary", "displayName": "Chestnut", "canonical": "#7a4a2c" },
+      "honey": { "role": "tertiary", "displayName": "Honey", "canonical": "#d9a865" },
+      "blonde": { "role": "tertiary", "displayName": "Blonde", "canonical": "#ecd6a6" },
+      "cocoa-deep": { "role": "neutral", "displayName": "Cocoa Deep (footer)", "canonical": "#2c1913" },
+      "cocoa-lift": { "role": "neutral", "displayName": "Cocoa Lift (hero glow, photo placeholder)", "canonical": "#4a2c21" },
+      "blush-lift": { "role": "neutral", "displayName": "Blush Lift (pill hover)", "canonical": "#fff4ef" },
+      "field": { "role": "neutral", "displayName": "Field", "canonical": "#fff8f5" },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#2b1812" },
+      "ink-soft": { "role": "neutral", "displayName": "Ink Soft", "canonical": "#6b4a3e" },
+      "on-dark": { "role": "neutral", "displayName": "On Dark", "canonical": "#f6e8e2" },
+      "on-dark-soft": { "role": "neutral", "displayName": "On Dark Soft", "canonical": "#d8bdb1" },
+      "error": { "role": "neutral", "displayName": "Error", "canonical": "#a33a1f" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headline only; 900 uppercase, blush on cocoa." },
+      "headline": { "displayName": "Headline", "purpose": "One per section; 900 uppercase, balanced wrap." },
+      "title": { "displayName": "Title", "purpose": "Service names in text-to-book rows." },
+      "body": { "displayName": "Body", "purpose": "Default copy; ledes at 18px, 30-40ch measures." },
+      "label": { "displayName": "Label", "purpose": "Shared 13px/800/0.16em uppercase role: limited line, menu groups, facts, legends, field labels, footer tag." }
+    },
+    "shadows": [
+      { "name": "logo-lift", "value": "0 2px 10px rgba(0,0,0,.25)", "purpose": "Round header logo." },
+      { "name": "arch-drop", "value": "0 14px 30px -12px rgba(0,0,0,.55)", "purpose": "Arched photo frames on cocoa." },
+      { "name": "accent-ring", "value": "0 0 0 3px rgba(184,100,63,.3)", "purpose": "Focus glow on inputs, chips, send button." }
+    ],
+    "motion": [
+      { "name": "state", "value": "0.2s ease (color), 0.15s (transform, field borders)", "purpose": "Button, arrow, field and chip state changes." },
+      { "name": "press", "value": "scale(.98)", "purpose": "Button active state." },
+      { "name": "panel-in", "value": "0.3s cubic-bezier(.16,1,.3,1), translateY(6px) to 0", "purpose": "Sent-message panel entrance." },
+      { "name": "hint-fade", "value": "0.8s opacity", "purpose": "Hero hint fades 2.5s after first touch." },
+      { "name": "shared-loop", "value": "one rAF; IntersectionObserver rootMargin 80px; dt capped 50ms", "purpose": "Drives hair lock and all seams; pauses off screen." },
+      { "name": "hair-lock", "value": "STRANDS_PHONE 260, STRANDS_DESK 620, SAMPLES 64/96, SWELL .9, RIPPLE 1.4, BRUSH .16, LIFT 2.2, GHOST_LIFT .9, REGROW .003, PUSH 1400, SPRING 38, DAMP 6.5, IDLE_GHOST 5s, LIFT_MAX .7, TILT .14/.34, GHOST_PUSH .15, SHEEN 50, TIP .07", "purpose": "Tunables at the top of the hair IIFE: comb + paint highlights, self-painting balayage brush." },
+      { "name": "strand-seams", "value": "STEP 20, VW 1440, VH 80, SPEED 1.1, MID 3, REACH 130, PUSH 900, SPRING 38, DAMP 6.5, 7 STRANDS", "purpose": "Tunables at the top of the seams IIFE: seven strands that part under the pointer." },
+      { "name": "reduced-motion", "value": "prefers-reduced-motion: reduce", "purpose": "Lock still frame with pre-painted highlights, static seams, no transitions or smooth scroll." }
+    ],
+    "breakpoints": [
+      { "name": "phone", "value": "0px (base)" },
+      { "name": "tablet", "value": "600px" },
+      { "name": "desktop", "value": "1024px" },
+      { "name": "narrow-tweak", "value": "max-width 359px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Header",
+      "kind": "nav",
+      "description": "Logo and tracked wordmark left, phone number top-right with honey icon; not sticky.",
+      "html": "<div class=\"ds-top\"><a class=\"ds-brand\" href=\"#\"><span class=\"ds-logo\"></span><span>Abbyliv hair</span></a><a class=\"ds-tel\" href=\"#\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6.6 3.5 9 3l1.6 4.2-2 1.5a12 12 0 0 0 6.7 6.7l1.5-2L21 15l-.5 2.4A2.4 2.4 0 0 1 18.2 19 15.6 15.6 0 0 1 5 5.8a2.4 2.4 0 0 1 1.6-2.3Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\"/></svg>908-839-6941</a></div>",
+      "css": ".ds-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:#3a221a;color:#f6e8e2;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}.ds-brand{display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none;min-height:44px}.ds-logo{width:42px;height:42px;border-radius:50%;background:#f3e2db;box-shadow:0 2px 10px rgba(0,0,0,.25)}.ds-brand span:last-child{font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase}.ds-tel{display:inline-flex;align-items:center;gap:7px;min-height:44px;font-weight:800;font-size:15px;color:inherit;text-decoration:none;font-variant-numeric:tabular-nums}.ds-tel svg{width:17px;height:17px;color:#d9a865}.ds-tel:hover{color:#ecd6a6}.ds-tel:focus-visible{outline:3px solid #b8643f;outline-offset:3px;border-radius:8px}"
+    },
+    {
+      "name": "Filled Button",
+      "kind": "button",
+      "refersTo": "button-fill",
+      "description": "Primary hero pill: blush fill, ink text.",
+      "html": "<div style=\"background:#3a221a;padding:16px\"><a class=\"ds-btn ds-btn-fill\" href=\"#\">Book an appointment</a></div>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:0 26px;border-radius:999px;border:2px solid #f3e2db;font:800 16px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:.02em;text-decoration:none;transition:background .2s,color .2s,border-color .2s,transform .15s}.ds-btn:active{transform:scale(.98)}.ds-btn:focus-visible{outline:3px solid #b8643f;outline-offset:3px}.ds-btn-fill{background:#f3e2db;color:#2b1812}.ds-btn-fill:hover{background:#fff4ef;border-color:#fff4ef}"
+    },
+    {
+      "name": "Outlined Button",
+      "kind": "button",
+      "refersTo": "button-line",
+      "description": "Secondary hero pill, always paired with the filled one.",
+      "html": "<div style=\"background:#3a221a;padding:16px\"><a class=\"ds-btn-line\" href=\"#\">New-client special</a></div>",
+      "css": ".ds-btn-line{display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:0 26px;border-radius:999px;border:2px solid #f3e2db;background:transparent;color:#f3e2db;font:800 16px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:.02em;text-decoration:none;transition:color .2s,border-color .2s,transform .15s}.ds-btn-line:hover{border-color:#d9a865;color:#d9a865}.ds-btn-line:active{transform:scale(.98)}.ds-btn-line:focus-visible{outline:3px solid #b8643f;outline-offset:3px}"
+    },
+    {
+      "name": "Text-to-book Row",
+      "kind": "custom",
+      "refersTo": "row-arrow-hover",
+      "description": "Service row opening a prefilled sms; only the arrow disc changes on hover/focus.",
+      "html": "<ul class=\"ds-rows\"><li><a class=\"ds-row\" href=\"#\"><span class=\"ds-name\">Root touch up</span><span class=\"ds-price\">$40</span><span class=\"ds-arrow\"><svg viewBox=\"0 0 16 16\"><path d=\"M3 8h9M8.5 4l4 4-4 4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span></a></li></ul>",
+      "css": ".ds-rows{list-style:none;margin:0;padding:0 16px;background:#ecd6a6;color:#2b1812;border-top:1px solid rgba(43,24,18,.16);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}.ds-rows li{border-bottom:1px solid rgba(43,24,18,.16)}.ds-row{display:flex;align-items:center;gap:14px;min-height:64px;padding:12px 0;color:inherit;text-decoration:none}.ds-row:focus-visible{outline:none}.ds-name{flex:1;font-size:18px;font-weight:700}.ds-price{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums}.ds-arrow{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:rgba(43,24,18,.08);transition:background .2s,color .2s}.ds-arrow svg{width:16px;height:16px}.ds-row:hover .ds-arrow,.ds-row:focus-visible .ds-arrow,.ds-row:active .ds-arrow{background:#b8643f;color:#fff}.ds-row:focus-visible .ds-arrow{outline:3px solid #b8643f;outline-offset:3px}"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Pill radio/checkbox; copper hover and focus, cocoa when selected.",
+      "html": "<div class=\"ds-chips\"><label class=\"ds-chip\"><input type=\"radio\" name=\"s\" checked><span>Highlights</span></label><label class=\"ds-chip\"><input type=\"radio\" name=\"s\"><span>Glaze</span></label></div>",
+      "css": ".ds-chips{display:flex;flex-wrap:wrap;gap:8px;padding:16px;background:#f3e2db;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}.ds-chip{position:relative}.ds-chip input{position:absolute;opacity:0;width:1px;height:1px;margin:0}.ds-chip span{display:inline-flex;align-items:center;min-height:46px;padding:0 16px;border-radius:999px;border:2px solid rgba(43,24,18,.45);background:#fff8f5;color:#2b1812;font-size:16px;font-weight:600;cursor:pointer;transition:border-color .15s,background .15s,color .15s}.ds-chip:hover span{border-color:#b8643f}.ds-chip input:focus-visible+span{border-color:#b8643f;box-shadow:0 0 0 3px rgba(184,100,63,.3)}.ds-chip input:checked+span{background:#3a221a;border-color:#3a221a;color:#f3e2db}.ds-chip:hover input:checked+span{border-color:#b8643f}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Rounded field with tracked-caps label; copper hover border and focus ring.",
+      "html": "<div class=\"ds-field\"><label for=\"ds-n\">Your name</label><input id=\"ds-n\" type=\"text\" placeholder=\"First name\"></div>",
+      "css": ".ds-field{padding:16px;background:#f3e2db;color:#2b1812;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}.ds-field label{display:block;margin-bottom:10px;font:800 13px/1.2 inherit;letter-spacing:.16em;text-transform:uppercase}.ds-field input{width:100%;box-sizing:border-box;min-height:54px;padding:14px 16px;border-radius:14px;border:2px solid rgba(43,24,18,.45);background:#fff8f5;color:#2b1812;font:400 17px/1.4 inherit;caret-color:#b8643f;transition:border-color .15s,box-shadow .15s}.ds-field input::placeholder{color:#8a6a5e}.ds-field input:hover{border-color:#b8643f}.ds-field input:focus{outline:none;border-color:#b8643f;box-shadow:0 0 0 3px rgba(184,100,63,.3)}"
+    },
+    {
+      "name": "Arched Photo Frame",
+      "kind": "card",
+      "description": "3:4 arched mirror frame for work photos; no caption.",
+      "html": "<div style=\"background:#3a221a;padding:16px;width:200px\"><figure class=\"ds-arch\"></figure></div>",
+      "css": ".ds-arch{margin:0;aspect-ratio:3/4;border-radius:999px 999px 18px 18px;overflow:hidden;background:linear-gradient(180deg,#7a4a2c,#d9a865 70%,#ecd6a6);box-shadow:0 14px 30px -12px rgba(0,0,0,.55)}"
+    },
+    {
+      "name": "Footer",
+      "kind": "custom",
+      "refersTo": "footer",
+      "description": "Cocoa-deep footer: wordmark, label tagline, call/text and Instagram links.",
+      "html": "<footer class=\"ds-foot\"><div class=\"ds-fname\">Abbyliv hair</div><p class=\"ds-tag\">Color. Style. Service by Abby</p><a href=\"#\">Call 908-839-6941</a></footer>",
+      "css": ".ds-foot{background:#2c1913;color:#d8bdb1;padding:32px 16px;font:16px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}.ds-fname{color:#f3e2db;font-weight:900;text-transform:uppercase;letter-spacing:.2em;font-size:15px}.ds-tag{margin:8px 0 12px;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase}.ds-foot a{display:inline-flex;align-items:center;min-height:44px;color:#f6e8e2;text-decoration:none;font-weight:700}.ds-foot a:hover{color:#d9a865}.ds-foot a:focus-visible{outline:3px solid #b8643f;outline-offset:3px;border-radius:8px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Lock of Balayage",
+    "overview": "The page is a lock of her hair. A cocoa-brown ground (never black) carries a living, touchable lock of brunette-to-honey hair in the first viewport, and the same hair keeps returning: every section boundary is a band of seven animated strands, every photo sits in an arched mirror frame, and the palette is drawn from hair itself (chestnut, honey, blonde) plus the blush of Abby's logo. Copper is the only interaction color, the tint of lightener on a brush.\n\nSections alternate between dark cocoa and light blush or blonde grounds, separated only by the strand seams, never by rules or cards. Type is a single system sans used two ways: very heavy, tightly tracked uppercase for headlines, and small, widely tracked uppercase for labels. Everything else is calm, roomy body copy in first person. The surface is phone-first and single-scroll; desktop widens into two-column splits without adding chrome.",
+    "keyCharacteristics": [
+      "Cocoa ground with blush and blonde light sections; hair tones as the only chroma besides copper.",
+      "Heavy uppercase display (900) against a 13px tracked-caps label role; one font stack.",
+      "Pill buttons, arched photo frames, pill chips: every interactive or framed shape is round.",
+      "Motion is hair: a combable, paintable canvas lock and pointer-parting strand seams on one shared animation loop.",
+      "No sticky bar, no captions, no cards; text-to-book rows are the main conversion device."
+    ],
+    "rules": [
+      { "name": "The Never-Black Rule", "body": "The darkest value on the page is cocoa-deep. No #000 grounds or text; shadows may use translucent black only.", "section": "colors" },
+      { "name": "The Copper-Is-Touch Rule", "body": "Copper appears only in response to hover, focus, press or a caret. It never fills a resting surface or sets resting text.", "section": "colors" },
+      { "name": "The Hair-Tone Rule", "body": "Any new chroma comes from the hair ramp (chestnut, honey, blonde); do not introduce colors outside the brown-to-blonde range and the logo blush.", "section": "colors" },
+      { "name": "The Two-Extremes Rule", "body": "Headlines are 900-weight uppercase with negative tracking; labels are 13px uppercase at 0.16em. Do not add a middle tracked-caps size or a third weight style for headings.", "section": "typography" },
+      { "name": "The One-Label Rule", "body": "Every small uppercase label uses the shared 13px/800/0.16em role. New labels join that role rather than inventing a variant.", "section": "typography" },
+      { "name": "The No-Sticky Rule", "body": "Nothing is fixed or sticky. The header scrolls away with the hero; there is no floating call or book bar.", "section": "layout" },
+      { "name": "The Flat-Section Rule", "body": "Sections never become cards. A new section is a new full-bleed ground joined by a strand seam.", "section": "elevation" },
+      { "name": "The Arch Rule", "body": "Photos of her work are always in the arched mirror frame (round top, 18px foot, 3:4), never square tiles or rounded rectangles.", "section": "shapes" },
+      { "name": "The Arrow-Only Rule", "body": "Row hover and focus feedback lives entirely in the arrow disc. Do not tint, underline or outline the row.", "section": "components" },
+      { "name": "The Shared-Loop Rule", "body": "Any new animation subscribes to the shared loop and pauses off screen; no component starts its own rAF.", "section": "components" },
+      { "name": "The Still-Frame Rule", "body": "Every animated element has a meaningful static state under reduced motion; never just remove it.", "section": "components" }
+    ],
+    "dos": [
+      "Do keep cocoa as the ground and alternate light sections (blush, blonde) joined by strand seams.",
+      "Do keep copper for hover, focus and press only, with the 3px copper outline or ring.",
+      "Do put the phone number in the header top-right and nowhere else in the first screen.",
+      "Do frame every work photo in the arch and place the single Instagram link directly under the photos.",
+      "Do use text-to-book rows (sms links with a prefilled message) for any priced service, with arrow-only hover.",
+      "Do keep tap targets at 44px or more and pair hero buttons as one filled, one outlined pill.",
+      "Do run new motion through the shared loop and give it a reduced-motion still frame."
+    ],
+    "donts": [
+      "Don't add a sticky or fixed header, call bar or book bar.",
+      "Don't repeat the phone number elsewhere in the first viewport (hero copy, buttons).",
+      "Don't add an email address or email link anywhere.",
+      "Don't caption the work photos; the alt text carries the description.",
+      "Don't use pure black, or colors outside the hair tones, blush and copper.",
+      "Don't separate sections with rules, cards or straight edges; use a strand seam.",
+      "Don't give rows a hover background or underline."
+    ]
+  }
+}

@@ -22,7 +22,6 @@
   --cocoa:#3a221a;      /* page ground, dark sections */
   --cocoa-deep:#2c1913; /* footer */
   --blush:#f3e2db;      /* from the logo */
-  --blush-2:#ead2c8;
   --ink:#2b1812;        /* text on blush */
   --ink-soft:#6b4a3e;
   --on-dark:#f6e8e2;    /* text on cocoa */
@@ -31,7 +30,6 @@
   --honey:#d9a865;
   --blonde:#ecd6a6;
   --accent:#b8643f;     /* copper: hover, focus, form outlines */
-  --accent-text:#94492a;/* copper dark enough for text on blush */
   --field:#fff8f5;
   --field-line:rgba(43,24,18,.45);
   --error:#a33a1f;
@@ -111,6 +109,7 @@ section{padding:56px 0 64px}
 
 .label,.limited,.menu-group h3,.facts b,legend,label.lbl,.foot .tag{font:800 13px/1.2 var(--sans);letter-spacing:.16em;text-transform:uppercase}
 .limited{display:block;margin-top:12px;color:var(--ink-soft)}
+.tap{margin:8px 0 0;font-size:16px;color:var(--ink-soft)}
 .special{background:var(--blonde);padding-top:44px}
 .special .row{min-height:76px}
 .special .name{font-size:20px}
@@ -155,7 +154,7 @@ input[type=text]:focus,input[type=tel]:focus,textarea:focus{outline:none;border-
 .chip input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
 .chip span{display:inline-flex;align-items:center;min-height:46px;padding:0 16px;border-radius:999px;border:2px solid var(--field-line);background:var(--field);font-size:16px;font-weight:600;cursor:pointer;transition:border-color .15s,background .15s,color .15s}
 .chip:hover span{border-color:var(--accent)}
-.chip input:focus-visible+span{border-color:var(--accent);box-shadow:0 0 0 3px rgba(184,100,63,.3)}
+.chip input:focus-visible+span{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-ring)}
 .chip input:checked+span{background:var(--cocoa);border-color:var(--cocoa);color:var(--blush)}
 .chip input:checked:hover+span,.chip:hover input:checked+span{border-color:var(--accent)}
 .err{display:none;margin:8px 0 0;font-size:15px;font-weight:700;color:var(--error)}
@@ -163,7 +162,7 @@ input[type=text]:focus,input[type=tel]:focus,textarea:focus{outline:none;border-
 .invalid input[type=text],.invalid .chip span{border-color:var(--error);border-style:dashed}
 .invalid input[type=text]{box-shadow:0 0 0 3px rgba(163,58,31,.15)}
 .send{width:100%;background:var(--cocoa);border-color:var(--cocoa);color:var(--blush)}
-.send:hover,.send:focus-visible{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px rgba(184,100,63,.3)}
+.send:hover,.send:focus-visible{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-ring)}
 .send-note{margin:-12px 0 0;font-size:15px;color:var(--ink-soft)}
 .sent{display:none;margin-top:6px;padding:20px;border-radius:var(--radius);background:#fff8f5;border:2px solid var(--line-light)}
 .sent.show{display:block;animation:sentIn .3s cubic-bezier(.16,1,.3,1)}
@@ -258,7 +257,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <section class="light special" id="special">
   <div class="wrap">
     <div><h2>New to my chair?</h2>
-    <span class="limited">New-client special · limited time · tap to text me</span></div>
+    <span class="limited">New-client special · limited time</span><p class="tap">Tap one to text me.</p></div>
     <ul class="rows">
       <li><a class="row" href="sms:+19088396941" data-sms="Hi Abby! I'm a new client and I'd like to book the Root Touch Up special ($40). Days and times that work for me: "><span class="name">Root touch up</span><span class="price num">$40</span><span class="vh">, text Abby</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
       <li><a class="row" href="sms:+19088396941" data-sms="Hi Abby! I'm a new client and I'd like to book the Haircut & Blow Dry special ($60). Days and times that work for me: "><span class="name">Haircut &amp; blow dry</span><span class="price num">$60</span><span class="vh">, text Abby</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
@@ -695,7 +694,7 @@ var PHONE = '+19088396941';
   Loop.add(cvs, frame);
 })();
 
-/* ---------- seams: three hair strands; the next section's color fills under the middle one ---------- */
+/* ---------- seams: seven hair strands; the next section's color fills under the middle one ---------- */
 (function seams() {
   var STEP = 20, VW = 1440, VH = 80, SPEED = 1.1, MID = 3;   // MID: the strand the next section's color fills under
   var REACH = 130, PUSH = 900, SPRING = 38, DAMP = 6.5;      // pointer parting, same feel as the hero

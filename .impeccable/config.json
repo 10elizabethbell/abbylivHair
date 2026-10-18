@@ -8,6 +8,21 @@
         "value": "#3a221a",
         "createdAt": "2026-10-18T21:40:07.405Z",
         "reason": "pitch-site finishing-rules.md 'Readable over the scene': text over the hair canvas gets a soft glow in the ground color; this is the hero hint's legibility halo, not decoration"
+      },
+      {
+        "rule": "overused-font",
+        "value": "roboto",
+        "createdAt": "2026-10-18T22:19:04.058Z",
+        "reason": "Ellie's house style (pitch-site ellie-taste.md: 'Type: the system font stack ... It's fast and it worked'); Roboto is only the Android fallback in the system stack"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-18T22:19:04.123Z",
+        "reason": "flagged .rows are hairline divider lists, not containers; each row has 12px vertical padding (pitch-site finishing-rules row pattern)"
       }
     ]
   }
