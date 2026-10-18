@@ -6,6 +6,7 @@
 <title>Abbyliv hair · Hair color by Abby · South Manalapan, NJ</title>
 <meta name="description" content="Hair color, high-lift blondes, cuts, blowouts and GK smoothing by Abby, a stylist for 15 years. South Manalapan, NJ. By appointment. Text 908-839-6941.">
 <meta name="theme-color" content="#3a221a">
+<meta name="color-scheme" content="light only">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Abbyliv hair · Treat yourself">
 <meta property="og:description" content="Hair color and high-lift blondes by Abby, a stylist for 15 years. New-client special running now. South Manalapan, NJ.">
@@ -31,6 +32,10 @@
   --blonde:#ecd6a6;
   --accent:#b8643f;     /* copper: hover, focus, form outlines */
   --accent-text:#94492a;/* copper dark enough for text on blush */
+  --field:#fff8f5;
+  --field-line:rgba(43,24,18,.45);
+  --error:#a33a1f;
+  --accent-ring:rgba(184,100,63,.3);
   --line-dark:rgba(246,232,226,.22);
   --line-light:rgba(43,24,18,.16);
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -38,6 +43,8 @@
   --radius:16px;
 }
 *,*::before,*::after{box-sizing:border-box}
+:root{color-scheme:light only}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 html{-webkit-text-size-adjust:100%;overscroll-behavior-y:none;scroll-behavior:smooth;scroll-padding-top:12px}
 body{margin:0;background:var(--cocoa);color:var(--on-dark);font:400 17px/1.55 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img{display:block;max-width:100%}
@@ -85,7 +92,7 @@ section{padding:56px 0 64px}
 
 /* ---------- rows (special + menu) ---------- */
 .lede{margin:14px 0 0;font-size:18px;color:var(--ink-soft);max-width:40ch}
-.dark .lede{color:var(--on-dark-soft)}
+.dark .lede{color:var(--on-dark-soft);line-height:1.6}
 .rows{list-style:none;margin:28px 0 0;padding:0;border-top:1px solid var(--line-light)}
 .dark .rows{border-color:var(--line-dark)}
 .rows li{border-bottom:1px solid var(--line-light)}
@@ -100,10 +107,17 @@ section{padding:56px 0 64px}
 .arrow svg{width:16px;height:16px}
 .row:hover .arrow,.row:focus-visible .arrow{background:var(--accent);color:#fff}
 .row:focus-visible .arrow{outline:3px solid var(--accent);outline-offset:3px}
+.row:active .arrow{background:var(--accent);color:#fff;transition:none}
 
-.limited{display:block;margin-top:10px;font-size:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.label,.limited,.menu-group h3,.facts b,legend,label.lbl,.foot .tag{font:800 13px/1.2 var(--sans);letter-spacing:.16em;text-transform:uppercase}
+.limited{display:block;margin-top:12px;color:var(--ink-soft)}
+.special{background:var(--blonde);padding-top:44px}
+.special .row{min-height:76px}
+.special .name{font-size:20px}
+.special .price{font:900 clamp(28px,7.5vw,40px)/1 var(--sans);letter-spacing:-.02em}
+.special .price small{font-size:14px;font-weight:700;letter-spacing:0}
 .menu-group{margin-top:40px}
-.menu-group h3{font-size:15px;letter-spacing:.18em;font-weight:800;color:var(--honey)}
+.menu-group h3{color:var(--honey)}
 .menu-group .rows{margin-top:12px}
 .menu-note{margin:26px 0 0;font-size:15px;color:var(--on-dark-soft)}
 
@@ -112,12 +126,12 @@ section{padding:56px 0 64px}
 .about p{margin:16px 0 0;font-size:18px;max-width:34em}
 .facts{margin:6px 0 0;padding:0;list-style:none;font-size:16px;color:var(--ink-soft)}
 .facts li{padding:12px 0;border-bottom:1px solid var(--line-light)}
-.facts b{display:block;color:var(--ink);font-size:13px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:2px}
-.signoff{margin-top:22px;font-weight:800;font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-text)}
+.facts b{display:block;color:var(--ink);margin-bottom:4px}
+.signoff{margin-top:22px;font-weight:800;font-size:14px;letter-spacing:.14em;text-transform:uppercase;text-wrap:balance;color:var(--chestnut)}
 
 /* ---------- work ---------- */
 .work-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px}
-.arch{position:relative;aspect-ratio:3/4;border-radius:999px 999px 18px 18px;overflow:hidden;background:#4a2c21;box-shadow:0 14px 30px -12px rgba(0,0,0,.55)}
+.arch{margin:0;position:relative;aspect-ratio:3/4;border-radius:999px 999px 18px 18px;overflow:hidden;background:#4a2c21;box-shadow:0 14px 30px -12px rgba(0,0,0,.55)}
 .arch img{width:100%;height:100%;object-fit:cover;-webkit-user-drag:none;user-select:none}
 .work-grid .arch:nth-child(even){transform:translateY(22px)}
 .more{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:52px;min-height:60px;padding:0 24px;border-radius:999px;background:var(--blush);color:var(--ink);font-weight:800;font-size:17px;text-decoration:none;text-align:center;transition:background .2s}
@@ -129,29 +143,31 @@ section{padding:56px 0 64px}
 .book p.lede{color:var(--ink-soft)}
 form{margin-top:28px;display:grid;gap:26px}
 fieldset{border:0;margin:0;padding:0;min-width:0}
-legend,label.lbl{display:block;font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px;padding:0}
+legend,label.lbl{display:block;margin-bottom:10px;padding:0}
 legend .opt,label.lbl .opt{font-weight:600;letter-spacing:.04em;text-transform:none;color:var(--ink-soft)}
-input[type=text],input[type=tel],textarea{width:100%;min-height:54px;padding:14px 16px;border-radius:14px;border:2px solid var(--line-light);background:#fff8f5;color:var(--ink);font:400 17px/1.4 var(--sans);transition:border-color .15s,box-shadow .15s}
+input[type=text],input[type=tel],textarea{width:100%;min-height:54px;padding:14px 16px;border-radius:14px;border:2px solid var(--field-line);background:var(--field);color:var(--ink);font:400 17px/1.4 var(--sans);transition:border-color .15s,box-shadow .15s}
 textarea{min-height:96px;resize:vertical}
 input::placeholder,textarea::placeholder{color:#8a6a5e}
 input[type=text]:hover,input[type=tel]:hover,textarea:hover{border-color:var(--accent)}
-input[type=text]:focus,input[type=tel]:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(184,100,63,.25)}
+input[type=text]:focus,input[type=tel]:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-ring)}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{position:relative}
 .chip input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
-.chip span{display:inline-flex;align-items:center;min-height:46px;padding:0 16px;border-radius:999px;border:2px solid var(--line-light);background:#fff8f5;font-size:16px;font-weight:600;cursor:pointer;transition:border-color .15s,background .15s,color .15s}
+.chip span{display:inline-flex;align-items:center;min-height:46px;padding:0 16px;border-radius:999px;border:2px solid var(--field-line);background:var(--field);font-size:16px;font-weight:600;cursor:pointer;transition:border-color .15s,background .15s,color .15s}
 .chip:hover span{border-color:var(--accent)}
 .chip input:focus-visible+span{border-color:var(--accent);box-shadow:0 0 0 3px rgba(184,100,63,.3)}
 .chip input:checked+span{background:var(--cocoa);border-color:var(--cocoa);color:var(--blush)}
 .chip input:checked:hover+span,.chip:hover input:checked+span{border-color:var(--accent)}
-.err{display:none;margin:8px 0 0;font-size:15px;font-weight:600;color:#a33a1f}
+.err{display:none;margin:8px 0 0;font-size:15px;font-weight:700;color:var(--error)}
 .invalid .err{display:block}
-.invalid input[type=text]{border-color:#a33a1f}
+.invalid input[type=text],.invalid .chip span{border-color:var(--error);border-style:dashed}
+.invalid input[type=text]{box-shadow:0 0 0 3px rgba(163,58,31,.15)}
 .send{width:100%;background:var(--cocoa);border-color:var(--cocoa);color:var(--blush)}
 .send:hover,.send:focus-visible{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px rgba(184,100,63,.3)}
 .send-note{margin:-12px 0 0;font-size:15px;color:var(--ink-soft)}
 .sent{display:none;margin-top:6px;padding:20px;border-radius:var(--radius);background:#fff8f5;border:2px solid var(--line-light)}
-.sent.show{display:block}
+.sent.show{display:block;animation:sentIn .3s cubic-bezier(.16,1,.3,1)}
+@keyframes sentIn{from{opacity:0;transform:translateY(6px)}}
 .sent p{margin:0 0 10px;font-size:16px}
 .sent pre{white-space:pre-wrap;margin:0 0 14px;font:400 16px/1.5 var(--sans);color:var(--ink)}
 .sent .row-btns{display:flex;flex-wrap:wrap;gap:10px}
@@ -162,7 +178,7 @@ input[type=text]:focus,input[type=tel]:focus,textarea:focus{outline:none;border-
 footer{background:var(--cocoa-deep);color:var(--on-dark-soft);padding:48px 0 calc(40px + env(safe-area-inset-bottom));font-size:16px}
 .foot{display:grid;gap:22px}
 .foot .fname{color:var(--blush);font-weight:900;text-transform:uppercase;letter-spacing:.2em;font-size:15px}
-.foot .tag{margin:6px 0 0;font-size:14px;letter-spacing:.14em;text-transform:uppercase}
+.foot .tag{margin:8px 0 0;font-weight:700}
 .foot ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
 .foot a{display:inline-flex;align-items:center;min-height:44px;color:var(--on-dark);text-decoration:none;font-weight:700}
 .foot a:hover{color:var(--honey)}
@@ -192,9 +208,14 @@ footer{background:var(--cocoa-deep);color:var(--on-dark-soft);padding:48px 0 cal
   .about-grid{grid-template-columns:1.3fr 1fr;gap:72px;align-items:start}
   .book .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:72px;align-items:start}
   .book form{margin-top:0}
+  .special .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:72px;align-items:start}
+  .special .rows{margin-top:0}
+  .hint{bottom:clamp(40px,8svh,90px)}
+  #hair{cursor:none}
   .foot{grid-template-columns:2fr 1fr 1fr;align-items:start}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn,.arrow{transition:none}}
+@media (max-width:359px){.brand span{font-size:12px;letter-spacing:.12em}}
+@media (prefers-reduced-motion:reduce){.sent.show{animation:none}html{scroll-behavior:auto}.btn,.arrow{transition:none}}
 </style>
 </head>
 <body>
@@ -231,56 +252,57 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   </div>
 </header>
 
-<div class="seam" data-top="#3a221a" data-bottom="#f3e2db" aria-hidden="true"></div>
+<main>
+<div class="seam" data-top="#3a221a" data-bottom="#ecd6a6" aria-hidden="true"></div>
 
 <section class="light special" id="special">
   <div class="wrap">
-    <h2>New to my chair?</h2>
-    <span class="limited">New-client special · limited time</span>
+    <div><h2>New to my chair?</h2>
+    <span class="limited">New-client special · limited time · tap to text me</span></div>
     <ul class="rows">
-      <li><a class="row" data-sms="Hi Abby! I'm a new client and I'd like to book the Root Touch Up special ($40). Days and times that work for me: "><span class="name">Root touch up</span><span class="price num">$40</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-      <li><a class="row" data-sms="Hi Abby! I'm a new client and I'd like to book the Haircut & Blow Dry special ($60). Days and times that work for me: "><span class="name">Haircut &amp; blow dry</span><span class="price num">$60</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-      <li><a class="row" data-sms="Hi Abby! I'm a new client and I'd like to book the Highlights special (starting at $50). Days and times that work for me: "><span class="name">Highlights</span><span class="price num"><small>from</small>$50</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-      <li><a class="row" data-sms="Hi Abby! I'm a new client and I'd like to book the Blowout special ($30). Days and times that work for me: "><span class="name">Blowout</span><span class="price num">$30</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+      <li><a class="row" href="sms:+19088396941" data-sms="Hi Abby! I'm a new client and I'd like to book the Root Touch Up special ($40). Days and times that work for me: "><span class="name">Root touch up</span><span class="price num">$40</span><span class="vh">, text Abby</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+      <li><a class="row" href="sms:+19088396941" data-sms="Hi Abby! I'm a new client and I'd like to book the Haircut & Blow Dry special ($60). Days and times that work for me: "><span class="name">Haircut &amp; blow dry</span><span class="price num">$60</span><span class="vh">, text Abby</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+      <li><a class="row" href="sms:+19088396941" data-sms="Hi Abby! I'm a new client and I'd like to book the Highlights special (starting at $50). Days and times that work for me: "><span class="name">Highlights</span><span class="price num"><small>from</small>$50</span><span class="vh">, text Abby</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+      <li><a class="row" href="sms:+19088396941" data-sms="Hi Abby! I'm a new client and I'd like to book the Blowout special ($30). Days and times that work for me: "><span class="name">Blowout</span><span class="price num">$30</span><span class="vh">, text Abby</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
     </ul>
   </div>
 </section>
 
-<div class="seam" data-top="#f3e2db" data-bottom="#3a221a" aria-hidden="true"></div>
+<div class="seam" data-top="#ecd6a6" data-bottom="#3a221a" aria-hidden="true"></div>
 
 <section class="dark menu" id="menu">
   <div class="wrap">
     <h2>The menu</h2>
-    <p class="lede">Hair color and high-lift blondes are my specialty. Tap anything to text me about it.</p>
+    <p class="lede">Tap any service to text me about it.</p>
     <div class="menu-cols">
       <div class="menu-group">
         <h3>Highlights &amp; balayage</h3>
         <ul class="rows">
-          <li><a class="row" data-sms="Hi Abby! I'd like to book Face Frame highlights. Days and times that work for me: "><span class="name">Face frame</span><span class="price num">$70</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-          <li><a class="row" data-sms="Hi Abby! I'd like to book Partial highlights. Days and times that work for me: "><span class="name">Partial</span><span class="price num">$100+</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-          <li><a class="row" data-sms="Hi Abby! I'd like to book Full highlights. Days and times that work for me: "><span class="name">Full</span><span class="price num">$250+</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+          <li><a class="row" href="sms:+19088396941" data-sms="Hi Abby! I'd like to book Face Frame highlights. Days and times that work for me: "><span class="name">Face frame</span><span class="price num">$70</span><span class="vh">, text Abby</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+          <li><a class="row" href="sms:+19088396941" data-sms="Hi Abby! I'd like to book Partial highlights. Days and times that work for me: "><span class="name">Partial</span><span class="price num">$100+</span><span class="vh">, text Abby</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+          <li><a class="row" href="sms:+19088396941" data-sms="Hi Abby! I'd like to book Full highlights. Days and times that work for me: "><span class="name">Full</span><span class="price num">$250+</span><span class="vh">, text Abby</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
         </ul>
       </div>
       <div class="menu-group">
         <h3>Color</h3>
         <ul class="rows">
-          <li><a class="row" data-sms="Hi Abby! I'd like to book a Single Process color. Days and times that work for me: "><span class="name">Single process</span><span class="price num">$60</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-          <li><a class="row" data-sms="Hi Abby! I'd like to book a Glaze. Days and times that work for me: "><span class="name">Glaze</span><span class="price num">$40</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-          <li><a class="row" data-sms="Hi Abby! I'd like to ask about Color Correction. Here's what's going on with my hair: "><span class="name">Color correction</span><span class="price">Text me</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+          <li><a class="row" href="sms:+19088396941" data-sms="Hi Abby! I'd like to book a Single Process color. Days and times that work for me: "><span class="name">Single process</span><span class="price num">$60</span><span class="vh">, text Abby</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+          <li><a class="row" href="sms:+19088396941" data-sms="Hi Abby! I'd like to book a Glaze. Days and times that work for me: "><span class="name">Glaze</span><span class="price num">$40</span><span class="vh">, text Abby</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+          <li><a class="row" href="sms:+19088396941" data-sms="Hi Abby! I'd like to ask about Color Correction. Here's what's going on with my hair: "><span class="name">Color correction</span><span class="price">Text me</span><span class="vh">, text Abby</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
         </ul>
       </div>
       <div class="menu-group">
         <h3>Cut &amp; style</h3>
         <ul class="rows">
-          <li><a class="row" data-sms="Hi Abby! I'd like to book a Haircut. Days and times that work for me: "><span class="name">Cutting</span><span class="price num">$75+</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-          <li><a class="row" data-sms="Hi Abby! I'd like to book a Blow Dry & Styling. Days and times that work for me: "><span class="name">Blow dry &amp; styling</span><span class="price num">$45+</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+          <li><a class="row" href="sms:+19088396941" data-sms="Hi Abby! I'd like to book a Haircut. Days and times that work for me: "><span class="name">Haircut</span><span class="price num">$75+</span><span class="vh">, text Abby</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+          <li><a class="row" href="sms:+19088396941" data-sms="Hi Abby! I'd like to book a Blow Dry & Styling. Days and times that work for me: "><span class="name">Blow dry &amp; styling</span><span class="price num">$45+</span><span class="vh">, text Abby</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
         </ul>
       </div>
       <div class="menu-group">
         <h3>Smoothing</h3>
         <ul class="rows">
-          <li><a class="row" data-sms="Hi Abby! I'd like to ask about a Keratin treatment. Days and times that work for me: "><span class="name">Keratin treatment</span><span class="price">Text me</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-          <li><a class="row" data-sms="Hi Abby! I'd like to ask about GK smoothing. Days and times that work for me: "><span class="name">Smoothing by GK</span><span class="price">Text me</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+          <li><a class="row" href="sms:+19088396941" data-sms="Hi Abby! I'd like to ask about a Keratin treatment. Days and times that work for me: "><span class="name">Keratin treatment</span><span class="price">Text me</span><span class="vh">, text Abby</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+          <li><a class="row" href="sms:+19088396941" data-sms="Hi Abby! I'd like to ask about GK smoothing. Days and times that work for me: "><span class="name">Smoothing by GK</span><span class="price">Text me</span><span class="vh">, text Abby</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
         </ul>
       </div>
     </div>
@@ -293,8 +315,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <div class="wrap about-grid">
     <div>
       <h2>Fifteen years behind the chair</h2>
-      <p>I'm Abby. Color is my favorite part of this job, especially taking someone all the way to a bright, high-lift blonde without wrecking their hair on the way there.</p>
-      <p>I book one client at a time, use top-of-the-line products, and don't rush. Take the time to pamper yourself. You should walk out looking, and feeling, like a million dollars.</p>
+      <p>I'm Abby. Hair color and high-lift blondes are my specialty, along with keratin treatments, smoothing by GK, cuts and a perfectly styled blow dry.</p>
+      <p>I use top-of-the-line products, because the right treatment can make you look, and feel, like a million dollars. Take the time to pamper yourself.</p>
       <p class="signoff">Color. Style. Service by Abby</p>
     </div>
     <ul class="facts">
@@ -311,12 +333,12 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <div class="wrap">
     <h2>My work</h2>
     <div class="work-grid">
-      <figure class="arch" style="margin:0"><img src="img/work-01.webp" alt="Bright high-lift blonde, cut to the shoulders" width="720" height="960" loading="lazy" decoding="async" draggable="false"></figure>
-      <figure class="arch" style="margin:0"><img src="img/work-02.webp" alt="Long, sleek copper-red hair" width="720" height="960" loading="lazy" decoding="async" draggable="false"></figure>
-      <figure class="arch" style="margin:0"><img src="img/work-03.webp" alt="Brunette hair with honey tones, curled in loose waves" width="720" height="960" loading="lazy" decoding="async" draggable="false"></figure>
-      <figure class="arch" style="margin:0"><img src="img/work-04.webp" alt="Long brunette blowout with soft curled ends" width="720" height="960" loading="lazy" decoding="async" draggable="false"></figure>
-      <figure class="arch" style="margin:0"><img src="img/work-05.webp" alt="Shoulder-length brunette with bouncy curled ends" width="720" height="960" loading="lazy" decoding="async" draggable="false"></figure>
-      <figure class="arch" style="margin:0"><img src="img/work-06.webp" alt="Glossy brunette waves, styled after a blow dry" width="720" height="960" loading="lazy" decoding="async" draggable="false"></figure>
+      <figure class="arch"><img src="img/work-01-480.webp" srcset="img/work-01-480.webp 480w, img/work-01.webp 960w" sizes="(min-width:1180px) 360px, (min-width:600px) 31vw, 46vw" alt="Bright high-lift blonde, cut to the shoulders" width="480" height="640" loading="lazy" decoding="async" draggable="false"></figure>
+      <figure class="arch"><img src="img/work-02-480.webp" srcset="img/work-02-480.webp 480w, img/work-02.webp 960w" sizes="(min-width:1180px) 360px, (min-width:600px) 31vw, 46vw" alt="Long, sleek copper-red hair" width="480" height="640" loading="lazy" decoding="async" draggable="false"></figure>
+      <figure class="arch"><img src="img/work-03-480.webp" srcset="img/work-03-480.webp 480w, img/work-03.webp 960w" sizes="(min-width:1180px) 360px, (min-width:600px) 31vw, 46vw" alt="Brunette hair with honey tones, curled in loose waves" width="480" height="640" loading="lazy" decoding="async" draggable="false"></figure>
+      <figure class="arch"><img src="img/work-04-480.webp" srcset="img/work-04-480.webp 480w, img/work-04.webp 960w" sizes="(min-width:1180px) 360px, (min-width:600px) 31vw, 46vw" alt="Long brunette blowout with soft curled ends" width="480" height="640" loading="lazy" decoding="async" draggable="false"></figure>
+      <figure class="arch"><img src="img/work-05-480.webp" srcset="img/work-05-480.webp 480w, img/work-05.webp 960w" sizes="(min-width:1180px) 360px, (min-width:600px) 31vw, 46vw" alt="Shoulder-length brunette with bouncy curled ends" width="480" height="640" loading="lazy" decoding="async" draggable="false"></figure>
+      <figure class="arch"><img src="img/work-06-480.webp" srcset="img/work-06-480.webp 480w, img/work-06.webp 960w" sizes="(min-width:1180px) 360px, (min-width:600px) 31vw, 46vw" alt="Glossy brunette waves, styled after a blow dry" width="480" height="640" loading="lazy" decoding="async" draggable="false"></figure>
     </div>
     <div class="work-foot">
       <a class="more" href="https://www.instagram.com/abbylivhair/" rel="noopener"><svg aria-hidden="true"><use href="#i-ig"/></svg><span>Click to see more of my work.<small>@abbylivhair on Instagram</small></span></a>
@@ -330,15 +352,15 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <div class="wrap">
     <div>
       <h2>Book your appointment</h2>
-      <p class="lede">Tell me what you'd like and when you're free. It goes to me as a text, and I'll text you back with a time.</p>
+      <p class="lede">Tell me what you'd like and when you're free. I'll text you back with a time.</p>
     </div>
     <form id="bookForm" novalidate>
       <div class="field" id="f-name">
         <label class="lbl" for="name">Your name</label>
-        <input type="text" id="name" name="name" autocomplete="given-name" placeholder="First name">
-        <p class="err">Add your name so I know who's texting.</p>
+        <input type="text" id="name" name="name" autocomplete="given-name" autocapitalize="words" maxlength="60" placeholder="First name" aria-describedby="err-name">
+        <p class="err" id="err-name">Add your name so I know who's texting.</p>
       </div>
-      <fieldset class="field" id="f-service">
+      <fieldset class="field" id="f-service" aria-describedby="err-service">
         <legend>What are you booking?</legend>
         <div class="chips">
           <label class="chip"><input type="radio" name="service" value="New-client special"><span>New-client special</span></label>
@@ -350,7 +372,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           <label class="chip"><input type="radio" name="service" value="Keratin / GK smoothing"><span>Smoothing</span></label>
           <label class="chip"><input type="radio" name="service" value="Not sure yet"><span>Not sure yet</span></label>
         </div>
-        <p class="err">Pick one, or choose "Not sure yet".</p>
+        <p class="err" id="err-service">Pick one, or choose "Not sure yet".</p>
       </fieldset>
       <fieldset class="field">
         <legend>Days that work <span class="opt">(optional)</span></legend>
@@ -377,7 +399,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
       <button class="btn send" type="submit">Text this to Abby</button>
       <p class="send-note">Opens your messages with this already written. Nothing sends until you press send.</p>
       <div class="sent" id="sent" role="status" aria-live="polite">
-        <p><b>Didn't open?</b> Text this to <a class="num" href="tel:+19088396941">908-839-6941</a>:</p>
+        <p><b>Didn't open?</b> Text this to <a class="num" href="sms:+19088396941">908-839-6941</a>:</p>
         <pre id="sentMsg"></pre>
         <div class="row-btns">
           <a class="btn" id="sentSms" href="sms:+19088396941">Open messages</a>
@@ -387,6 +409,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
     </form>
   </div>
 </section>
+</main>
 
 <footer>
   <div class="wrap foot">
@@ -438,17 +461,19 @@ var PHONE = '+19088396941';
   var STRANDS_PHONE = 260, STRANDS_DESK = 620, SAMPLES_PHONE = 64, SAMPLES_DESK = 96;
   var SWELL = 0.9, RIPPLE = 1.4;          // motion speeds (lively, not sleepy)
   var BRUSH = 0.16;                       // brush radius, fraction of lock height
-  var LIFT = 2.6, GHOST_LIFT = 0.9, REGROW = 0.0045;        // how fast highlights paint in / fade back (per frame at 60fps)
+  var LIFT = 2.2, GHOST_LIFT = 0.9, REGROW = 0.003;        // how fast highlights paint in / fade back (per frame at 60fps)
   var PUSH = 1400, SPRING = 38, DAMP = 6.5;
   var IDLE_GHOST = 5;                     // seconds without touch before the brush paints by itself again
-  var RAMP = [[0, [58, 33, 24]], [0.28, [92, 56, 36]], [0.55, [138, 88, 52]], [0.78, [196, 146, 88]], [1, [228, 196, 140]]];
-  var LIFTED = [243, 220, 170];
+  var RAMP = [[0, [86, 52, 36]], [0.28, [92, 56, 36]], [0.55, [138, 88, 52]], [0.78, [196, 146, 88]], [1, [228, 196, 140]]];
+  var LIFTED = [246, 226, 184];
+  var LIFT_MAX = 0.7;                      // strongest a painted strand gets: highlights, not bleach
   var LAYERS = [{ dim: 0.5, w: 2.4, a: 0.95, lift: 0.3 }, { dim: 0.78, w: 1.6, a: 0.9, lift: 0.75 }, { dim: 1, w: 1.05, a: 0.85, lift: 1 }];  // back strands lighten least, so highlights stay strand-by-strand
   var TILT_PHONE = 0.14, TILT_DESK = 0.34;  // how much the lock rises toward its ends (desktop: only right of the text)
-  var GHOST_PUSH = 0.35;                    // how hard the self-painting brush parts the hair
+  var GHOST_PUSH = 0.15;
+  var SHEEN = 50, TIP = 0.07;                // light band moving along the hair; share of each strand that tapers to a tip                    // how hard the self-painting brush parts the hair
 
   var W = 0, H = 0, dpr = 1, N = SAMPLES_PHONE, S, off, layer, amp, kk, ph, endU, dr, dk, dy, vy, lift, maxLift, xs, yc, ww, Y, tilt, wide, jit;
-  var pointer = { x: -1e4, y: -1e4, cx: 0, cy: 0, vx: 0, vy: 0, active: false, last: -100 };
+  var pointer = { x: -1e4, y: -1e4, cx: -1e4, cy: -1e4, vx: 0, vy: 0, active: false, touch: false, last: -100 };
   var hint = document.getElementById('hint'), touched = false;
 
   function rnd(a, b) { return a + Math.random() * (b - a); }
@@ -464,7 +489,7 @@ var PHONE = '+19088396941';
       layer[i] = l;
       var o = rnd(-1, 1); off[i] = Math.sign(o) * Math.pow(Math.abs(o), l === 0 ? 0.8 : 1.1) * (l === 0 ? 1.0 : 0.92);
       amp[i] = rnd(1, 3.5) * (H / 300); kk[i] = rnd(0.5, 1.4); ph[i] = rnd(0, 6.28);
-      endU[i] = rnd(0.86, 1.08);
+      endU[i] = rnd(0.8, 0.98);
       dr[i] = rnd(0.04, 0.16) * (Math.random() < 0.5 ? -1 : 1); dk[i] = rnd(1.5, 4);   // strands drift across each other
     }
     jit = new Float32Array(S); for (var q = 0; q < S; q++) jit[q] = Math.random() - 0.5;   // per strand: each one lifts at its own pace
@@ -506,11 +531,11 @@ var PHONE = '+19088396941';
   }
   function brushAt(px, py, pvy, dt, paint, strength, push) {
     var R = H * BRUSH, R2 = R * R;
-    var j0 = Math.max(0, Math.floor((px - R / 0.55 - xs[0]) / (xs[1] - xs[0]))), j1 = Math.min(N - 1, Math.ceil((px + R / 0.55 - xs[0]) / (xs[1] - xs[0])));
+    var j0 = Math.max(0, Math.floor((px - R / 0.35 - xs[0]) / (xs[1] - xs[0]))), j1 = Math.min(N - 1, Math.ceil((px + R / 0.35 - xs[0]) / (xs[1] - xs[0])));
     for (var i = 0; i < S; i++) {
       var b = i * N;
       for (var j = j0; j <= j1; j++) {
-        var dx = (xs[j] - px) * 0.55, ddy = Y[b + j] - py, d2 = dx * dx + ddy * ddy;   // footprint stretched along the strands
+        var dx = (xs[j] - px) * 0.35, ddy = Y[b + j] - py, d2 = dx * dx + ddy * ddy;   // footprint stretched along the strands
         if (d2 > R2) continue;
         var f = 1 - Math.sqrt(d2) / R;
         vy[b + j] += ((ddy >= 0 ? 1 : -1) * PUSH * push * f * f + pvy * 0.35 * f) * dt;
@@ -528,6 +553,7 @@ var PHONE = '+19088396941';
         if (lift[k] > 0) { lift[k] = Math.max(0, lift[k] - g); if (lift[k] > m) m = lift[k]; }
       }
       maxLift[i] = m;
+      for (var j2 = 1, b = i * N; j2 < N - 1; j2++) dy[b + j2] += 0.3 * (dy[b + j2 - 1] + dy[b + j2 + 1] - 2 * dy[b + j2]);
     }
   }
   function draw(t) {
@@ -535,30 +561,51 @@ var PHONE = '+19088396941';
     ctx.clearRect(0, 0, W, H);
     // body of the lock so it reads as a solid mass of hair, not a web of lines
     var gr = ctx.createLinearGradient(0, 0, W, 0);
-    for (var q = 0; q <= 4; q++) gr.addColorStop(q / 4, rgb(ramp(q / 4), 0.34, 0));
+    for (var q = 0; q <= 4; q++) gr.addColorStop(q / 4, rgb(ramp(q / 4), 0.45, 0));
     ctx.beginPath();
-    for (var j = 0; j < N; j++) ctx.lineTo(xs[j], yc[j] - ww[j] * 0.82);
-    for (var j3 = N - 1; j3 >= 0; j3--) ctx.lineTo(xs[j3], yc[j3] + ww[j3] * 0.82);
+    // the body thins out before the tips so it never shows past the strand ends
+    function body(j) { var u = xs[j] / W, f = Math.max(0, Math.min(1, (u - 0.66) / 0.24)); return ww[j] * 0.82 * (1 - f * f * (3 - 2 * f)); }
+    for (var j = 0; j < N; j++) ctx.lineTo(xs[j], yc[j] - body(j));
+    for (var j3 = N - 1; j3 >= 0; j3--) ctx.lineTo(xs[j3], yc[j3] + body(j3));
     ctx.closePath(); ctx.fillStyle = gr; ctx.fill();
 
     ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    var shineX = 0.42 + 0.22 * Math.sin(t * 0.35);
+    var shineX = (wide ? 0.5 : 0.45) + 0.2 * Math.sin(t * 0.35);
     for (var L = 0; L < 3; L++) {
       var lay = LAYERS[L]; ctx.lineWidth = lay.w; ctx.globalAlpha = lay.a;
       // natural color: one smooth root-to-ends gradient for the whole layer
       var sg = ctx.createLinearGradient(0, 0, W, 0);
-      for (var q2 = 0; q2 <= 10; q2++) {
-        var u3 = q2 / 10, shine = L === 0 ? 0 : 30 * Math.exp(-Math.pow((u3 - shineX) / 0.09, 2));
+      for (var q2 = 0; q2 <= 20; q2++) {
+        var u3 = q2 / 20, shine = (L === 0 ? 0.5 : 1) * SHEEN * Math.exp(-Math.pow((u3 - shineX) / 0.07, 2));
         sg.addColorStop(u3, rgb(ramp(u3), lay.dim, shine));
       }
       ctx.strokeStyle = sg; ctx.beginPath();
       for (var i = 0; i < S; i++) {
         if (layer[i] !== L) continue;
         var b = i * N, endX = endU[i] * W;
+        var tipX = endX - TIP * W;
         ctx.moveTo(xs[0], Y[b]);
-        for (var j2 = 1; j2 < N && xs[j2 - 1] <= endX; j2++) ctx.lineTo(xs[j2], Y[b + j2]);
+        for (var j2 = 1; j2 < N && xs[j2] <= tipX; j2++) ctx.lineTo(xs[j2], Y[b + j2]);
       }
       ctx.stroke();
+      // tapered tips: two thinner, fainter passes so ends fade to points instead of stopping square
+      for (var tp = 0; tp < 2; tp++) {
+        ctx.lineWidth = lay.w * (tp ? 0.35 : 0.65); ctx.globalAlpha = lay.a * (tp ? 0.35 : 0.7); ctx.beginPath();
+        for (var it = 0; it < S; it++) {
+          if (layer[it] !== L) continue;
+          var bt = it * N, e = endU[it] * W, x0 = e - TIP * W * (tp ? 0.5 : 1), x1 = tp ? e : e - TIP * W * 0.5;
+          var started = false;
+          for (var jt = 1; jt < N; jt++) {
+            if (xs[jt] < x0) continue;
+            var xa = xs[jt - 1], f0 = (x0 - xa) / (xs[jt] - xa);
+            if (!started) { ctx.moveTo(x0, Y[bt + jt - 1] + (Y[bt + jt] - Y[bt + jt - 1]) * Math.max(0, Math.min(1, f0))); started = true; }
+            if (xs[jt] >= x1) { var f1 = (x1 - xa) / (xs[jt] - xa); ctx.lineTo(x1, Y[bt + jt - 1] + (Y[bt + jt] - Y[bt + jt - 1]) * f1); break; }
+            ctx.lineTo(xs[jt], Y[bt + jt]);
+          }
+        }
+        ctx.stroke();
+      }
+      ctx.lineWidth = lay.w; ctx.globalAlpha = lay.a;
       // painted highlights: only strands the brush touched, each with its own gradient along its length
       var lc = [LIFTED[0] * (lay.dim + 0.3) | 0, LIFTED[1] * (lay.dim + 0.3) | 0, LIFTED[2] * (lay.dim + 0.3) | 0].join(',');
       for (var i2 = 0; i2 < S; i2++) {
@@ -569,7 +616,7 @@ var PHONE = '+19088396941';
         ja = Math.max(0, ja - 1); jb = Math.min(N - 1, jb + 1);
         if (xs[jb] - xs[ja] < 1) continue;
         var strength = lay.lift * Math.min(1.4, 1 + jit[i2] * 0.9), lg = ctx.createLinearGradient(xs[ja], 0, xs[jb], 0);
-        for (var j4 = ja; j4 <= jb; j4++) lg.addColorStop((xs[j4] - xs[ja]) / (xs[jb] - xs[ja]), 'rgba(' + lc + ',' + Math.min(1, lift[b2 + j4] * strength).toFixed(3) + ')');
+        for (var j4 = ja; j4 <= jb; j4++) lg.addColorStop((xs[j4] - xs[ja]) / (xs[jb] - xs[ja]), 'rgba(' + lc + ',' + Math.min(LIFT_MAX, lift[b2 + j4] * strength * LIFT_MAX).toFixed(3) + ')');
         ctx.strokeStyle = lg; ctx.beginPath(); ctx.moveTo(xs[ja], Y[b2 + ja]);
         for (var j5 = ja + 1; j5 <= jb; j5++) ctx.lineTo(xs[j5], Y[b2 + j5]);
         ctx.stroke();
@@ -580,18 +627,24 @@ var PHONE = '+19088396941';
   // balayage brush that paints by itself until someone touches the hair
   function ghost(t) {
     // strokes run down the length of the hair, the way balayage is painted, moving to a new section each pass
-    var u = (wide ? 0.7 : 0.58) + (wide ? 0.24 : 0.32) * Math.sin(t * 0.9), j = Math.max(0, Math.min(N - 1, Math.round((u * W - xs[0]) / (xs[1] - xs[0]))));
+    var u = (wide ? 0.5 : 0.42) + (wide ? 0.18 : 0.22) * Math.sin(t * 0.9), j = Math.max(0, Math.min(N - 1, Math.round((u * W - xs[0]) / (xs[1] - xs[0]))));
     return { x: u * W, y: yc[j] + ww[j] * 0.6 * Math.sin(t * 0.23), vy: 0, speed: Math.abs(Math.cos(t * 0.9)) };
   }
   function drawBrush(x, y, t) {
     ctx.save(); ctx.translate(x, y); ctx.rotate(-0.5 + 0.18 * Math.cos(t * 0.9));
-    var s = Math.max(0.8, H / 320);
-    ctx.scale(s, s);
+    var k = Math.max(0.85, H / 300);
+    ctx.scale(k, k);
     ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 4;
-    ctx.fillStyle = '#2a1a14'; roundRect(-4, -78, 8, 50, 4); ctx.fill();          // handle
+    ctx.fillStyle = '#231510';                                                     // tapered handle
+    ctx.beginPath(); ctx.moveTo(-1.6, -82); ctx.lineTo(1.6, -82); ctx.lineTo(3.6, -30); ctx.lineTo(-3.6, -30); ctx.closePath(); ctx.fill();
     ctx.shadowColor = 'transparent';
-    ctx.fillStyle = '#b9b1ab'; roundRect(-7, -30, 14, 12, 2); ctx.fill();          // ferrule
-    ctx.fillStyle = '#f2e9d8'; ctx.beginPath(); ctx.moveTo(-7, -18); ctx.lineTo(7, -18); ctx.lineTo(6, -2); ctx.quadraticCurveTo(0, 2, -6, -2); ctx.closePath(); ctx.fill(); // bristles loaded with lightener
+    var band = ctx.createLinearGradient(-8, 0, 8, 0);                              // metal band
+    band.addColorStop(0, '#8d8580'); band.addColorStop(0.45, '#e2ddd8'); band.addColorStop(1, '#7c7570');
+    ctx.fillStyle = band; ctx.beginPath(); ctx.moveTo(-4, -31); ctx.lineTo(4, -31); ctx.lineTo(9, -20); ctx.lineTo(-9, -20); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#2b2622';                                                     // wide flat paddle of bristles, angled edge
+    ctx.beginPath(); ctx.moveTo(-9, -20); ctx.lineTo(9, -20); ctx.lineTo(13, -4); ctx.lineTo(-13, 1); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#ece6f2';                                                     // lightener on the edge
+    ctx.beginPath(); ctx.moveTo(-13, 1); ctx.quadraticCurveTo(-12, -7, -5, -6); ctx.quadraticCurveTo(4, -9, 13, -4); ctx.quadraticCurveTo(14, 1, 6, 1.5); ctx.quadraticCurveTo(-4, 4, -13, 1); ctx.closePath(); ctx.fill();
     ctx.restore();
   }
   function roundRect(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
@@ -602,30 +655,30 @@ var PHONE = '+19088396941';
     // read the canvas rect every frame: the page may scroll under the finger
     var r = cvs.getBoundingClientRect();
     var userOn = pointer.active || (t - pointer.last < 0.12);
-    if (userOn) {
-      var px = pointer.cx - r.left, py = pointer.cy - r.top;
-      brushAt(px, py, pointer.vy, dt, true, LIFT, 1);
-    }
+    var px = pointer.cx - r.left, py = pointer.cy - r.top;
+    var over = px > -20 && px < W + 20 && py > -20 && py < H + 20 && (t - pointer.last < (pointer.touch ? 1.2 : 4));
+    if (userOn) brushAt(px, py, pointer.vy, dt, true, LIFT, 1);
     var showGhost = !REDUCED && (t - pointer.last) > IDLE_GHOST;
     var g;
     if (showGhost) { g = ghost(t); brushAt(g.x, g.y, g.vy * 0.3, dt, true, GHOST_LIFT * g.speed, GHOST_PUSH); }   // paints while moving, so no blob where the stroke turns
     physics(dt);
     draw(t);
     if (showGhost) drawBrush(g.x, g.y, t);
+    else if (over && !REDUCED) drawBrush(px + (pointer.touch ? 18 : 0), py - (pointer.touch ? 30 : 0), t);
   }
 
   function onMove(cx, cy, active) {
     var now = performance.now() / 1000;
     pointer.vy = (cy - pointer.cy) / Math.max(0.008, now - pointer.last) * 0.5;
     pointer.cx = cx; pointer.cy = cy; pointer.last = now; pointer.active = active;
-    if (!touched) { touched = true; hint.classList.add('gone'); }
+    if (!touched) { touched = true; hint.textContent = 'That\u2019s balayage, by hand.'; setTimeout(function () { hint.classList.add('gone'); }, 2500); }
   }
-  cvs.addEventListener('pointermove', function (e) { onMove(e.clientX, e.clientY, e.pointerType !== 'mouse' || e.buttons > 0); }, { passive: true });
+  cvs.addEventListener('pointermove', function (e) { pointer.touch = e.pointerType !== 'mouse'; onMove(e.clientX, e.clientY, pointer.touch || e.buttons > 0); }, { passive: true });
   cvs.addEventListener('pointerdown', function (e) { onMove(e.clientX, e.clientY, true); }, { passive: true });
   window.addEventListener('pointerup', function () { pointer.active = false; }, { passive: true });
-  cvs.addEventListener('pointerleave', function () { pointer.active = false; }, { passive: true });
-  cvs.addEventListener('touchmove', function (e) { var p = e.touches[0]; onMove(p.clientX, p.clientY, true); }, { passive: true });
-  cvs.addEventListener('touchstart', function (e) { var p = e.touches[0]; onMove(p.clientX, p.clientY, true); }, { passive: true });
+  cvs.addEventListener('pointerleave', function () { pointer.active = false; pointer.last = performance.now() / 1000 - 3.9; }, { passive: true });
+  cvs.addEventListener('touchmove', function (e) { var p = e.touches[0]; pointer.touch = true; onMove(p.clientX, p.clientY, true); }, { passive: true });
+  cvs.addEventListener('touchstart', function (e) { var p = e.touches[0]; pointer.touch = true; onMove(p.clientX, p.clientY, true); }, { passive: true });
   cvs.addEventListener('touchend', function () { pointer.active = false; }, { passive: true });
 
   build();
@@ -644,8 +697,16 @@ var PHONE = '+19088396941';
 
 /* ---------- seams: three hair strands; the next section's color fills under the middle one ---------- */
 (function seams() {
-  var STEP = 20, VW = 1440, VH = 80, SPEED = 1.1;
-  var STRANDS = [{ c: '#7a4a2c', y: 0.42, a: 7, k: 3.1, s: 1.0, w: 2.2 }, { c: '#d9a865', y: 0.5, a: 9, k: 2.3, s: -0.8, w: 2.6 }, { c: '#ecd6a6', y: 0.6, a: 6, k: 4.2, s: 1.3, w: 1.6 }];
+  var STEP = 20, VW = 1440, VH = 80, SPEED = 1.1, MID = 3;   // MID: the strand the next section's color fills under
+  var REACH = 130, PUSH = 900, SPRING = 38, DAMP = 6.5;      // pointer parting, same feel as the hero
+  var STRANDS = [
+    { c: '#5c3824', y: 0.4, a: 6, k: 3.4, s: 1.0, w: 1.4, o: 0.8 }, { c: '#7a4a2c', y: 0.44, a: 7, k: 3.1, s: -0.9, w: 2.2, o: 0.9 },
+    { c: '#8a5834', y: 0.48, a: 8, k: 2.6, s: 1.2, w: 1.2, o: 0.8 }, { c: '#d9a865', y: 0.52, a: 9, k: 2.3, s: -0.8, w: 2.4, o: 1 },
+    { c: '#c49258', y: 0.55, a: 7, k: 3.8, s: 1.3, w: 1.0, o: 0.85 }, { c: '#e4c48c', y: 0.58, a: 6, k: 4.2, s: -1.1, w: 1.6, o: 0.9 },
+    { c: '#ecd6a6', y: 0.62, a: 5, k: 4.8, s: 1.0, w: 0.8, o: 0.75 }];
+  var COUNT = Math.round((VW + 2 * STEP) / STEP) + 1, ptr = { x: -1e4, y: -1e4 };
+  window.addEventListener('pointermove', function (e) { ptr.x = e.clientX; ptr.y = e.clientY; }, { passive: true });
+  window.addEventListener('touchmove', function (e) { ptr.x = e.touches[0].clientX; ptr.y = e.touches[0].clientY; }, { passive: true });
   document.querySelectorAll('.seam').forEach(function (el, n) {
     var ns = 'http://www.w3.org/2000/svg', svg = document.createElementNS(ns, 'svg');
     svg.setAttribute('viewBox', '0 0 ' + VW + ' ' + VH); svg.setAttribute('preserveAspectRatio', 'none');
@@ -653,28 +714,37 @@ var PHONE = '+19088396941';
     var fill = document.createElementNS(ns, 'path'); fill.setAttribute('fill', el.dataset.bottom); svg.appendChild(fill);
     var paths = STRANDS.map(function (st) {
       var p = document.createElementNS(ns, 'path');
-      p.setAttribute('fill', 'none'); p.setAttribute('stroke', st.c); p.setAttribute('stroke-width', st.w);
+      p.setAttribute('fill', 'none'); p.setAttribute('stroke', st.c); p.setAttribute('stroke-width', st.w); p.setAttribute('stroke-opacity', st.o);
       p.setAttribute('stroke-linecap', 'round'); p.setAttribute('vector-effect', 'non-scaling-stroke');
       svg.appendChild(p); return p;
     });
     el.appendChild(svg);
-    var phase = n * 1.7;
+    var phase = n * 1.7, off = new Float32Array(COUNT), vel = new Float32Array(COUNT);
     function line(st, t) {
-      var pts = [];
-      for (var x = -STEP; x <= VW + STEP; x += STEP) {
+      var pts = [], i = 0;
+      for (var x = -STEP; x <= VW + STEP; x += STEP, i++) {
         var u = x / VW;
-        var y = VH * st.y + 10 * Math.sin(u * 4.4 + t * 0.7 + phase) + st.a * Math.sin(u * 6.28 * st.k + t * SPEED * st.s + phase);
+        var y = VH * st.y + 10 * Math.sin(u * 4.4 + t * 0.7 + phase) + st.a * Math.sin(u * 6.28 * st.k + t * SPEED * st.s + phase) + off[i] * (0.6 + st.y * 0.8);
         pts.push(x.toFixed(0) + ' ' + y.toFixed(1));
       }
       return pts;
     }
-    function render(t) {
+    function render(t, dt) {
+      if (dt) {
+        var r = el.getBoundingClientRect(), near = ptr.y > r.top - 40 && ptr.y < r.bottom + 40;
+        var px = (ptr.x - r.left) / r.width * VW, py = (ptr.y - r.top) / r.height * VH;
+        for (var i = 0; i < COUNT; i++) {
+          var x = -STEP + i * STEP;
+          if (near && Math.abs(x - px) < REACH) { var f = 1 - Math.abs(x - px) / REACH; vel[i] += (py < VH / 2 ? 1 : -1) * PUSH * f * f * dt; }
+          vel[i] += (-SPRING * off[i] - DAMP * vel[i]) * dt; off[i] += vel[i] * dt;
+        }
+      }
       var mid;
-      STRANDS.forEach(function (st, i) { var pts = line(st, t); if (i === 1) mid = pts; paths[i].setAttribute('d', 'M' + pts.join('L')); });
+      STRANDS.forEach(function (st, k) { var pts = line(st, t); if (k === MID) mid = pts; paths[k].setAttribute('d', 'M' + pts.join('L')); });
       fill.setAttribute('d', 'M' + mid.join('L') + 'L' + (VW + STEP) + ' ' + (VH + 2) + 'L' + (-STEP) + ' ' + (VH + 2) + 'Z');
     }
-    render(0);
-    if (!REDUCED) Loop.add(el, function (t) { render(t); });
+    render(0, 0);
+    if (!REDUCED) Loop.add(el, render);
   });
 })();
 
@@ -690,7 +760,7 @@ var PHONE = '+19088396941';
   var f = document.getElementById('bookForm'); if (!f) return;
   var sent = document.getElementById('sent'), msgEl = document.getElementById('sentMsg'), smsA = document.getElementById('sentSms');
   function vals(name) { return Array.prototype.map.call(f.querySelectorAll('input[name="' + name + '"]:checked'), function (i) { return i.value; }); }
-  function check(id, ok) { document.getElementById(id).classList.toggle('invalid', !ok); return ok; }
+  function check(id, ok) { var el = document.getElementById(id); el.classList.toggle('invalid', !ok); el.querySelectorAll('input').forEach(function (i) { i.setAttribute('aria-invalid', String(!ok)); }); return ok; }
   f.addEventListener('input', function (e) {
     if (e.target.name === 'name' && e.target.value.trim()) check('f-name', true);
     if (e.target.name === 'service') check('f-service', true);
@@ -705,7 +775,7 @@ var PHONE = '+19088396941';
     if (days.length || times.length) msg += '\nWhen works for me: ' + (days.length ? days.join(', ') : 'any weekday') + (times.length ? ', ' + times.join(' or ') : '') + '.';
     if (notes) msg += '\n' + notes;
     var href = 'sms:' + PHONE + '?&body=' + encodeURIComponent(msg);
-    msgEl.textContent = msg; smsA.href = href; sent.classList.add('show');
+    msgEl.textContent = msg; smsA.href = href; sent.classList.add('show'); document.getElementById('copyMsg').textContent = 'Copy message';
     window.location.href = href;
   });
   document.getElementById('copyMsg').addEventListener('click', function () {
